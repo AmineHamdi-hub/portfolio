@@ -848,13 +848,6 @@
           async
           defer
         ></script>
-
-        <!-- Include the reCAPTCHA script -->
-        <script
-          src="https://www.google.com/recaptcha/api.js"
-          async
-          defer
-        ></script>
       </section>
 
       <footer>
@@ -1050,6 +1043,7 @@
           const name = document.getElementById("name").value.trim();
           const email = document.getElementById("email").value.trim();
           const message = document.getElementById("message").value.trim();
+          const subject = document.getElementById("subject").value.trim(); // Missing in original
           const recaptchaResponse = grecaptcha.getResponse(); // Get the reCAPTCHA response token
 
           // Check if reCAPTCHA is filled
@@ -1063,7 +1057,13 @@
             "https://script.google.com/macros/s/AKfycbzNJr_haySV4iDnFAJWs2zOdLCq5YVJjq9yxWMushPbi4npLts4wkMvbARAime3_CQi/exec",
             {
               method: "POST",
-              body: JSON.stringify({ name, email, message, recaptchaResponse }),
+              body: JSON.stringify({
+                name,
+                email,
+                subject,
+                message,
+                recaptchaResponse,
+              }),
               headers: {
                 "Content-Type": "application/json",
               },
