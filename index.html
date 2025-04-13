@@ -1,945 +1,1036 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Amine Hamdi | Software Engineer</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-        <style>
-            :root {
-                --bg-color: #0f172a;
-                --text-color: #e2e8f0;
-                --accent-color: #38bdf8;
-                --secondary-color: #818cf8;
-                --dark-accent: #1e293b;
-            }
-            
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            }
-            
-            body {
-                background-color: var(--bg-color);
-                color: var(--text-color);
-                overflow-x: hidden;
-            }
-            
-            #canvas-container {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                z-index: -1;
-            }
-            
-            .content {
-                position: relative;
-                z-index: 1;
-                padding: 2rem;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-            
-            header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 2rem 0;
-            }
-            
-            .logo {
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--accent-color);
-            }
-            
-            nav ul {
-                display: flex;
-                list-style: none;
-                gap: 1.5rem;
-            }
-            
-            nav a {
-                color: var(--text-color);
-                text-decoration: none;
-                font-weight: 500;
-                transition: color 0.3s;
-                padding: 0.5rem 0;
-                position: relative;
-            }
-            
-            nav a:after {
-                content: '';
-                position: absolute;
-                width: 0;
-                height: 2px;
-                bottom: 0;
-                left: 0;
-                background-color: var(--accent-color);
-                transition: width 0.3s;
-            }
-            
-            nav a:hover {
-                color: var(--accent-color);
-            }
-            
-            nav a:hover:after {
-                width: 100%;
-            }
-            
-            .hero {
-                height: calc(100vh - 100px);
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            
-            .hero h1 {
-                font-size: 4rem;
-                font-weight: 800;
-                margin-bottom: 1rem;
-                line-height: 1.1;
-            }
-            
-            .hero h1 span {
-                color: var(--accent-color);
-            }
-            
-            .hero p {
-                font-size: 1.5rem;
-                opacity: 0.8;
-                max-width: 600px;
-                margin-bottom: 2rem;
-                line-height: 1.6;
-            }
-            
-            .cta {
-                display: inline-block;
-                background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 0.5rem;
-                font-weight: 600;
-                text-decoration: none;
-                transition: transform 0.3s, box-shadow 0.3s;
-            }
-            
-            .cta:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            }
-            
-            section {
-                padding: 6rem 0;
-            }
-            
-            .section-title {
-                font-size: 2.5rem;
-                margin-bottom: 2rem;
-                text-align: center;
-            }
-            
-            .section-title span {
-                color: var(--accent-color);
-            }
-            
-            .projects {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-                gap: 2rem;
-            }
-            
-            .project-card {
-                background-color: var(--dark-accent);
-                border-radius: 1rem;
-                overflow: hidden;
-                transition: transform 0.3s, box-shadow 0.3s;
-            }
-            
-            .project-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            }
-            
-            .project-img {
-                height: 200px;
-                background-color: #2d3748;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            .project-img img {
-                max-width: 100%;
-                max-height: 100%;
-            }
-            
-            .project-info {
-                padding: 1.5rem;
-            }
-            
-            .project-info h3 {
-                font-size: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .project-info p {
-                opacity: 0.8;
-                margin-bottom: 1rem;
-            }
-            
-            .tags {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.5rem;
-                margin-bottom: 1rem;
-            }
-            
-            .tag {
-                background-color: rgba(56, 189, 248, 0.2);
-                color: var(--accent-color);
-                padding: 0.25rem 0.75rem;
-                border-radius: 9999px;
-                font-size: 0.875rem;
-            }
-            
-            .project-links {
-                display: flex;
-                gap: 1rem;
-            }
-            
-            .project-links a {
-                color: var(--accent-color);
-                text-decoration: none;
-                font-weight: 500;
-            }
-            
-            .skills {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 1.5rem;
-                margin: 3rem 0;
-            }
-            
-            .skill {
-                background-color: var(--dark-accent);
-                padding: 1.5rem;
-                border-radius: 1rem;
-                width: 150px;
-                height: 150px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                transition: transform 0.3s;
-            }
-            
-            .skill:hover {
-                transform: translateY(-10px);
-            }
-            
-            .skill-icon {
-                font-size: 2.5rem;
-                margin-bottom: 1rem;
-                color: var(--accent-color);
-            }
-            
-            .skill h3 {
-                font-size: 1rem;
-            }
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amine Hamdi | Software Engineer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+      :root {
+        --bg-color: #0f172a;
+        --text-color: #e2e8f0;
+        --accent-color: #38bdf8;
+        --secondary-color: #818cf8;
+        --dark-accent: #1e293b;
+      }
 
-            .experience-section {
-                margin-top: 3rem;
-            }
-            
-            .experience-item {
-                background-color: var(--dark-accent);
-                border-radius: 1rem;
-                padding: 2rem;
-                margin-bottom: 2rem;
-            }
-            
-            .experience-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 1rem;
-                flex-wrap: wrap;
-            }
-            
-            .experience-title {
-                font-size: 1.5rem;
-                margin-bottom: 0.5rem;
-                color: var(--accent-color);
-            }
-            
-            .experience-company {
-                font-size: 1.2rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .experience-date {
-                font-size: 0.9rem;
-                opacity: 0.7;
-                margin-top: 0.5rem;
-            }
-            
-            .experience-description {
-                margin-bottom: 1.5rem;
-                line-height: 1.6;
-            }
-            
-            .experience-tech {
-                font-size: 0.9rem;
-                opacity: 0.7;
-                margin-top: 1rem;
-            }
-            
-            .bullet-points {
-                list-style-type: none;
-                margin-left: 1rem;
-            }
-            
-            .bullet-points li {
-                position: relative;
-                padding-left: 1.5rem;
-                margin-bottom: 0.5rem;
-                line-height: 1.6;
-            }
-            
-            .bullet-points li:before {
-                content: '•';
-                position: absolute;
-                left: 0;
-                color: var(--accent-color);
-            }
-            
-            .about {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-                align-items: center;
-            }
-            
-            .about-text h2 {
-                font-size: 2.5rem;
-                margin-bottom: 1.5rem;
-            }
-            
-            .about-text p {
-                opacity: 0.8;
-                line-height: 1.6;
-                margin-bottom: 1.5rem;
-            }
-            
-            .contact-form {
-                max-width: 600px;
-                margin: 0 auto;
-            }
-            
-            .form-group {
-                margin-bottom: 1.5rem;
-            }
-            
-            .form-group label {
-                display: block;
-                margin-bottom: 0.5rem;
-                font-weight: 500;
-            }
-            
-            .form-group input,
-            .form-group textarea {
-                width: 100%;
-                padding: 1rem;
-                background-color: var(--dark-accent);
-                border: none;
-                border-radius: 0.5rem;
-                color: var(--text-color);
-                font-size: 1rem;
-            }
-            
-            .form-group textarea {
-                min-height: 150px;
-                resize: vertical;
-            }
-            
-            .submit-btn {
-                background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
-                color: white;
-                border: none;
-                padding: 1rem 2rem;
-                border-radius: 0.5rem;
-                font-weight: 600;
-                font-size: 1rem;
-                cursor: pointer;
-                transition: transform 0.3s, box-shadow 0.3s;
-            }
-            
-            .submit-btn:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+      }
 
-            .contact-info {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 2rem;
-                margin-bottom: 3rem;
-            }
-            
-            .contact-item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            
-            .contact-icon {
-                font-size: 2rem;
-                color: var(--accent-color);
-                margin-bottom: 1rem;
-            }
-            
-            .contact-item a {
-                color: var(--text-color);
-                text-decoration: none;
-                transition: color 0.3s;
-            }
-            
-            .contact-item a:hover {
-                color: var(--accent-color);
-            }
-            
-            footer {
-                text-align: center;
-                padding: 2rem;
-                opacity: 0.8;
-            }
-            
-            .social-links {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                margin-bottom: 1.5rem;
-            }
-            
-            .social-links a {
-                color: var(--text-color);
-                font-size: 1.5rem;
-                transition: color 0.3s;
-            }
-            
-            .social-links a:hover {
-                color: var(--accent-color);
-            }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+      }
 
-            .education {
-                background-color: var(--dark-accent);
-                border-radius: 1rem;
-                padding: 2rem;
-                margin-top: 2rem;
-            }
-            
-            .education-header {
-                margin-bottom: 1rem;
-            }
-            
-            .education-degree {
-                font-size: 1.3rem;
-                color: var(--accent-color);
-            }
-            
-            .education-school {
-                font-size: 1.1rem;
-                margin: 0.5rem 0;
-            }
-            
-            .education-date {
-                font-size: 0.9rem;
-                opacity: 0.7;
-            }
-            
-            .education-details {
-                margin-top: 1rem;
-            }
-            
-            .languages {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 1.5rem;
-                margin-top: 2rem;
-            }
-            
-            .language-item {
-                background-color: var(--dark-accent);
-                padding: 1rem 1.5rem;
-                border-radius: 0.5rem;
-                text-align: center;
-            }
-            
-            .language-name {
-                font-weight: 600;
-                margin-bottom: 0.3rem;
-            }
-            
-            .language-level {
-                font-size: 0.9rem;
-                opacity: 0.7;
-            }
-            
-            @media (max-width: 768px) {
-                .hero h1 {
-                    font-size: 3rem;
-                }
-                
-                .hero p {
-                    font-size: 1.25rem;
-                }
-                
-                .about {
-                    grid-template-columns: 1fr;
-                }
-                
-                nav {
-                    display: none;
-                }
+      #canvas-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+      }
 
-                .experience-header {
-                    flex-direction: column;
-                }
+      .content {
+        position: relative;
+        z-index: 1;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
 
-                .experience-date {
-                    margin-top: 0.5rem;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <div id="canvas-container"></div>
-        
-        <div class="content">
-            <header>
-                <div class="logo">Amine.Dev</div>
-                <nav>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#experience">Experience</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#skills">Skills</a></li>
-                        <li><a href="#education">Education</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
-            </header>
-            
-            <section id="home" class="hero">
-                <h1>Hi, I'm <span>Amine Hamdi</span><br>Software Engineering Student</h1>
-                <p>Motivated 2nd-year Software Engineering student with a strong foundation in AI, IoT, and web development.</p>
-                <a href="#contact" class="cta">Get In Touch</a>
-            </section>
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem 0;
+      }
 
-            <section id="experience">
-                <h2 class="section-title">Work <span>Experience</span></h2>
-                <div class="experience-section">
-                    <div class="experience-item">
-                        <div class="experience-header">
-                            <div>
-                                <h3 class="experience-title">Software Engineering Intern</h3>
-                                <h4 class="experience-company">Hédi Chaker Hospital (ReGIMLab)</h4>
-                            </div>
-                            <span class="experience-date">Summer 2024</span>
-                        </div>
-                        <h4>Nephro Pancartes App: Flutter, Firebase, Django</h4>
-                        <ul class="bullet-points">
-                            <li>Collaborated in designing and developing a cross-platform mobile application for the Nephrology Department.</li>
-                            <li>Integrated Firebase for real-time data processing and Django for backend recognition features.</li>
-                            <li>Followed Agile methodologies using Trello for project management.</li>
-                        </ul>
-                        <div class="experience-tech">
-                            <strong>Tech Stack:</strong> Flutter, Firebase, Django, Agile, Trello
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="projects">
-                <h2 class="section-title">My <span>Projects</span></h2>
-                <div class="projects">
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="/api/placeholder/320/200" alt="AI Project">
-                        </div>
-                        <div class="project-info">
-                            <h3>AI Project: Mechanical Properties Estimation</h3>
-                            <p>Developed an XGBoost model to estimate mechanical properties in FRP-based constructions, collaborating with civil engineering students.</p>
-                            <div class="tags">
-                                <span class="tag">Python</span>
-                                <span class="tag">XGBoost</span>
-                                <span class="tag">Pandas</span>
-                                <span class="tag">Scikit-learn</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/AmineHamdi-hub">GitHub</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="/api/placeholder/320/200" alt="E-commerce Website">
-                        </div>
-                        <div class="project-info">
-                            <h3>E-commerce Website (Java/Servlets)</h3>
-                            <p>Built a basic e-commerce website featuring a functional shopping cart. Implemented CRUD operations using Java Servlets and MySQL.</p>
-                            <div class="tags">
-                                <span class="tag">Java</span>
-                                <span class="tag">Servlets</span>
-                                <span class="tag">MySQL</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/AmineHamdi-hub">GitHub</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="/api/placeholder/320/200" alt="Cart Management System">
-                        </div>
-                        <div class="project-info">
-                            <h3>Product & Cart Management System</h3>
-                            <p>Developed a PHP-based web application for managing products and shopping carts with secure login/logout functionality.</p>
-                            <div class="tags">
-                                <span class="tag">PHP</span>
-                                <span class="tag">MySQL</span>
-                                <span class="tag">PDO</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/AmineHamdi-hub">GitHub</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="skills">
-                <h2 class="section-title">My <span>Skills</span></h2>
-                <div class="skills">
-                    <div class="skill">
-                        <div class="skill-icon">🐍</div>
-                        <h3>Python</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">☕</div>
-                        <h3>Java</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">🌐</div>
-                        <h3>PHP</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">📱</div>
-                        <h3>Flutter</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">🔥</div>
-                        <h3>Firebase</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">🐘</div>
-                        <h3>MySQL</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">🌿</div>
-                        <h3>Spring Boot</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">🐳</div>
-                        <h3>Docker</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">🔄</div>
-                        <h3>Git</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">🎨</div>
-                        <h3>Figma</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">⚡</div>
-                        <h3>JavaScript</h3>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-icon">🔶</div>
-                        <h3>Django</h3>
-                    </div>
-                </div>
-            </section>
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--accent-color);
+      }
 
-            <section id="education">
-                <h2 class="section-title">My <span>Education</span></h2>
-                <div class="education">
-                    <div class="education-header">
-                        <h3 class="education-degree">Software Engineering Degree</h3>
-                        <div class="education-school">Ecole Nationale d'Ingénieurs de Sfax</div>
-                        <div class="education-date">2023 – Present (Expected Graduation: 2026)</div>
-                    </div>
-                    <div class="education-details">
-                        <p><strong>Relevant Courses:</strong> Artificial Intelligence, Internet of Things, Web Development, Data Structures</p>
-                    </div>
-                </div>
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 1.5rem;
+      }
 
-                <h3 class="section-title" style="font-size: 1.8rem; margin-top: 3rem;">Languages</h3>
-                <div class="languages">
-                    <div class="language-item">
-                        <div class="language-name">Arabic</div>
-                        <div class="language-level">Native</div>
-                    </div>
-                    <div class="language-item">
-                        <div class="language-name">French</div>
-                        <div class="language-level">Fluent</div>
-                    </div>
-                    <div class="language-item">
-                        <div class="language-name">English</div>
-                        <div class="language-level">Advanced</div>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="contact">
-                <h2 class="section-title">Get In <span>Touch</span></h2>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">📧</div>
-                        <a href="mailto:amine.hamdi@enis.tn">amine.hamdi@enis.tn</a>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📱</div>
-                        <a href="tel:+21694963330">+216 94963330</a>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">👨‍💻</div>
-                        <a href="https://github.com/AmineHamdi-hub" target="_blank">github.com/AmineHamdi-hub</a>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">💼</div>
-                        <a href="https://www.linkedin.com/in/amine-elhamdi/" target="_blank">linkedin.com/in/amine-elhamdi</a>
-                    </div>
-                </div>
+      nav a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+        padding: 0.5rem 0;
+        position: relative;
+      }
 
-                <form class="contact-form">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" placeholder="Your name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="Your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" placeholder="Your message"></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
-            </section>
-            
-            <footer>
-                <div class="social-links">
-                    <a href="https://github.com/AmineHamdi-hub" target="_blank">GitHub</a>
-                    <a href="https://www.linkedin.com/in/amine-elhamdi/" target="_blank">LinkedIn</a>
-                </div>
-                <p>© 2025 Amine Hamdi. All rights reserved.</p>
-            </footer>
+      nav a:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: var(--accent-color);
+        transition: width 0.3s;
+      }
+
+      nav a:hover {
+        color: var(--accent-color);
+      }
+
+      nav a:hover:after {
+        width: 100%;
+      }
+
+      .hero {
+        height: calc(100vh - 100px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: 1.1;
+      }
+
+      .hero h1 span {
+        color: var(--accent-color);
+      }
+
+      .hero p {
+        font-size: 1.5rem;
+        opacity: 0.8;
+        max-width: 600px;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .cta {
+        display: inline-block;
+        background: linear-gradient(
+          90deg,
+          var(--accent-color),
+          var(--secondary-color)
+        );
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .cta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      section {
+        padding: 6rem 0;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .section-title span {
+        color: var(--accent-color);
+      }
+
+      .projects {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+      }
+
+      .project-card {
+        background-color: var(--dark-accent);
+        border-radius: 1rem;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .project-img {
+        height: 200px;
+        background-color: #2d3748;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .project-img img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      .project-info {
+        padding: 1.5rem;
+      }
+
+      .project-info h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .project-info p {
+        opacity: 0.8;
+        margin-bottom: 1rem;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .tag {
+        background-color: rgba(56, 189, 248, 0.2);
+        color: var(--accent-color);
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+      }
+
+      .project-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .project-links a {
+        color: var(--accent-color);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .skills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+        margin: 3rem 0;
+      }
+
+      .skill {
+        background-color: var(--dark-accent);
+        padding: 1.5rem;
+        border-radius: 1rem;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        transition: transform 0.3s;
+      }
+
+      .skill:hover {
+        transform: translateY(-10px);
+      }
+
+      .skill-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--accent-color);
+      }
+
+      .skill h3 {
+        font-size: 1rem;
+      }
+
+      .experience-section {
+        margin-top: 3rem;
+      }
+
+      .experience-item {
+        background-color: var(--dark-accent);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .experience-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .experience-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--accent-color);
+      }
+
+      .experience-company {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .experience-date {
+        font-size: 0.9rem;
+        opacity: 0.7;
+        margin-top: 0.5rem;
+      }
+
+      .experience-description {
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .experience-tech {
+        font-size: 0.9rem;
+        opacity: 0.7;
+        margin-top: 1rem;
+      }
+
+      .bullet-points {
+        list-style-type: none;
+        margin-left: 1rem;
+      }
+
+      .bullet-points li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+      }
+
+      .bullet-points li:before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: var(--accent-color);
+      }
+
+      .about {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .about-text h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .about-text p {
+        opacity: 0.8;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+
+      .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        background-color: var(--dark-accent);
+        border: none;
+        border-radius: 0.5rem;
+        color: var(--text-color);
+        font-size: 1rem;
+      }
+
+      .form-group textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
+
+      .submit-btn {
+        background: linear-gradient(
+          90deg,
+          var(--accent-color),
+          var(--secondary-color)
+        );
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .contact-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .contact-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .contact-icon {
+        font-size: 2rem;
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+      }
+
+      .contact-item a {
+        color: var(--text-color);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .contact-item a:hover {
+        color: var(--accent-color);
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        opacity: 0.8;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .social-links a {
+        color: var(--text-color);
+        font-size: 1.5rem;
+        transition: color 0.3s;
+      }
+
+      .social-links a:hover {
+        color: var(--accent-color);
+      }
+
+      .education {
+        background-color: var(--dark-accent);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-top: 2rem;
+      }
+
+      .education-header {
+        margin-bottom: 1rem;
+      }
+
+      .education-degree {
+        font-size: 1.3rem;
+        color: var(--accent-color);
+      }
+
+      .education-school {
+        font-size: 1.1rem;
+        margin: 0.5rem 0;
+      }
+
+      .education-date {
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+
+      .education-details {
+        margin-top: 1rem;
+      }
+
+      .languages {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .language-item {
+        background-color: var(--dark-accent);
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        text-align: center;
+      }
+
+      .language-name {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+      }
+
+      .language-level {
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 3rem;
+        }
+
+        .hero p {
+          font-size: 1.25rem;
+        }
+
+        .about {
+          grid-template-columns: 1fr;
+        }
+
+        nav {
+          display: none;
+        }
+
+        .experience-header {
+          flex-direction: column;
+        }
+
+        .experience-date {
+          margin-top: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas-container"></div>
+
+    <div class="content">
+      <header>
+        <div class="logo">Amine.Dev</div>
+        <nav>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <section id="home" class="hero">
+        <h1>
+          Hi, I'm <span>Amine Hamdi</span><br />Software Engineering Student
+        </h1>
+        <p>
+          Motivated 2nd-year Software Engineering student with a strong
+          foundation in AI, IoT, and web development.
+        </p>
+        <a href="#contact" class="cta">Get In Touch</a>
+      </section>
+
+      <section id="experience">
+        <h2 class="section-title">Work <span>Experience</span></h2>
+        <div class="experience-section">
+          <div class="experience-item">
+            <div class="experience-header">
+              <div>
+                <h3 class="experience-title">Software Engineering Intern</h3>
+                <h4 class="experience-company">
+                  Hédi Chaker Hospital (ReGIMLab)
+                </h4>
+              </div>
+              <span class="experience-date">Summer 2024</span>
+            </div>
+            <h4>Nephro Pancartes App: Flutter, Firebase, Django</h4>
+            <ul class="bullet-points">
+              <li>
+                Collaborated in designing and developing a cross-platform mobile
+                application for the Nephrology Department.
+              </li>
+              <li>
+                Integrated Firebase for real-time data processing and Django for
+                backend recognition features.
+              </li>
+              <li>
+                Followed Agile methodologies using Trello for project
+                management.
+              </li>
+            </ul>
+            <div class="experience-tech">
+              <strong>Tech Stack:</strong> Flutter, Firebase, Django, Agile,
+              Trello
+            </div>
+          </div>
         </div>
-        
-        <script>
-            // Three.js 3D Background
-            const canvas = document.createElement('canvas');
-            document.getElementById('canvas-container').appendChild(canvas);
-            
-            // Scene setup
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            
-            // Responsive canvas
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-            
-            // Camera position
-            camera.position.z = 30;
-            
-            // Lights
-            const ambientLight = new THREE.AmbientLight(0x404040, 1);
-            scene.add(ambientLight);
-            
-            const pointLight = new THREE.PointLight(0x38bdf8, 2);
-            pointLight.position.set(10, 10, 10);
-            scene.add(pointLight);
-            
-            const pointLight2 = new THREE.PointLight(0x818cf8, 2);
-            pointLight2.position.set(-10, -10, -10);
-            scene.add(pointLight2);
-            
-            // Create particles
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 1000;
-            
-            const posArray = new Float32Array(particlesCount * 3);
-            for (let i = 0; i < particlesCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 100;
-            }
-            
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.2,
-                color: 0x38bdf8,
-                transparent: true,
-                opacity: 0.8
-            });
-            
-            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particlesMesh);
-            
-            // Create floating geometric shapes
-            const shapes = [];
-            
-            // Create dodecahedron
-            const dodecahedronGeometry = new THREE.DodecahedronGeometry(2, 0);
-            const dodecahedronMaterial = new THREE.MeshPhongMaterial({
-                color: 0x38bdf8,
-                emissive: 0x38bdf8,
-                emissiveIntensity: 0.2,
-                wireframe: true
-            });
-            const dodecahedron = new THREE.Mesh(dodecahedronGeometry, dodecahedronMaterial);
-            dodecahedron.position.set(-15, 8, 0);
-            scene.add(dodecahedron);
-            shapes.push(dodecahedron);
-            
-            // Create octahedron
-            const octahedronGeometry = new THREE.OctahedronGeometry(3, 0);
-            const octahedronMaterial = new THREE.MeshPhongMaterial({
-                color: 0x818cf8,
-                emissive: 0x818cf8,
-                emissiveIntensity: 0.2,
-                wireframe: true
-            });
-            const octahedron = new THREE.Mesh(octahedronGeometry, octahedronMaterial);
-            octahedron.position.set(15, -8, -5);
-            scene.add(octahedron);
-            shapes.push(octahedron);
-            
-            // Create torus
-            const torusGeometry = new THREE.TorusGeometry(4, 1, 16, 50);
-            const torusMaterial = new THREE.MeshPhongMaterial({
-                color: 0x38bdf8,
-                emissive: 0x38bdf8,
-                emissiveIntensity: 0.2,
-                wireframe: true
-            });
-            const torus = new THREE.Mesh(torusGeometry, torusMaterial);
-            torus.position.set(0, -15, 5);
-            scene.add(torus);
-            shapes.push(torus);
-            
-            // Mouse interaction
-            let mouseX = 0;
-            let mouseY = 0;
-            
-            document.addEventListener('mousemove', (event) => {
-                mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
-                mouseY = (event.clientY / window.innerHeight - 0.5) * 2;
-            });
-            
-            // Scroll interaction
-            let scrollY = 0;
-            window.addEventListener('scroll', () => {
-                scrollY = window.scrollY;
-            });
-            
-            // Animation
-            function animate() {
-                requestAnimationFrame(animate);
-                
-                // Rotate particles
-                particlesMesh.rotation.x += 0.0005;
-                particlesMesh.rotation.y += 0.0005;
-                
-                // Mouse interaction with particles
-                particlesMesh.rotation.x += mouseY * 0.0005;
-                particlesMesh.rotation.y += mouseX * 0.0005;
-                
-                // Rotate shapes
-                shapes.forEach((shape, index) => {
-                    shape.rotation.x += 0.003 * (index + 1) * 0.2;
-                    shape.rotation.y += 0.004 * (index + 1) * 0.2;
-                    
-                    // Add subtle floating movement
-                    const time = Date.now() * 0.001;
-                    shape.position.y += Math.sin(time * (0.5 + index * 0.2)) * 0.01;
-                    shape.position.x += Math.cos(time * (0.3 + index * 0.1)) * 0.01;
-                });
-                
-                // Parallax effect on scroll
-                camera.position.y = -scrollY * 0.01;
-                
-                renderer.render(scene, camera);
-            }
-            
-            animate();
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    window.scrollTo({
-                        top: target.offsetTop,
-                        behavior: 'smooth'
-                    });
-                });
-            });
-        </script>
-        <script>
-            document.querySelector('.contact-form').addEventListener('submit', async function(e) {
-                e.preventDefault();
-            
-                const name = document.getElementById('name').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const message = document.getElementById('message').value.trim();
-            
-                const response = await fetch('https://aminehamdi-hub.github.io/portfolio/', {
-                    method: 'POST',
-                    body: JSON.stringify({ name, email, message }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-            
-                const result = await response.json();
-                if (result.result === 'success') {
-                    alert('Message sent successfully!');
-                    document.querySelector('.contact-form').reset();
-                } else {
-                    alert('Something went wrong. Please try again.');
-                }
-            });
-            </script>
-            
-    </body>
-    </html>
+      </section>
+
+      <section id="projects">
+        <h2 class="section-title">My <span>Projects</span></h2>
+        <div class="projects">
+          <div class="project-card">
+            <div class="project-img">
+              <img src="/api/placeholder/320/200" alt="AI Project" />
+            </div>
+            <div class="project-info">
+              <h3>AI Project: Mechanical Properties Estimation</h3>
+              <p>
+                Developed an XGBoost model to estimate mechanical properties in
+                FRP-based constructions, collaborating with civil engineering
+                students.
+              </p>
+              <div class="tags">
+                <span class="tag">Python</span>
+                <span class="tag">XGBoost</span>
+                <span class="tag">Pandas</span>
+                <span class="tag">Scikit-learn</span>
+              </div>
+              <div class="project-links">
+                <a href="https://github.com/AmineHamdi-hub">GitHub</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-img">
+              <img src="/api/placeholder/320/200" alt="E-commerce Website" />
+            </div>
+            <div class="project-info">
+              <h3>E-commerce Website (Java/Servlets)</h3>
+              <p>
+                Built a basic e-commerce website featuring a functional shopping
+                cart. Implemented CRUD operations using Java Servlets and MySQL.
+              </p>
+              <div class="tags">
+                <span class="tag">Java</span>
+                <span class="tag">Servlets</span>
+                <span class="tag">MySQL</span>
+              </div>
+              <div class="project-links">
+                <a href="https://github.com/AmineHamdi-hub">GitHub</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-img">
+              <img
+                src="/api/placeholder/320/200"
+                alt="Cart Management System"
+              />
+            </div>
+            <div class="project-info">
+              <h3>Product & Cart Management System</h3>
+              <p>
+                Developed a PHP-based web application for managing products and
+                shopping carts with secure login/logout functionality.
+              </p>
+              <div class="tags">
+                <span class="tag">PHP</span>
+                <span class="tag">MySQL</span>
+                <span class="tag">PDO</span>
+              </div>
+              <div class="project-links">
+                <a href="https://github.com/AmineHamdi-hub">GitHub</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <h2 class="section-title">My <span>Skills</span></h2>
+        <div class="skills">
+          <div class="skill">
+            <div class="skill-icon">🐍</div>
+            <h3>Python</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">☕</div>
+            <h3>Java</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">🌐</div>
+            <h3>PHP</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">📱</div>
+            <h3>Flutter</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">🔥</div>
+            <h3>Firebase</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">🐘</div>
+            <h3>MySQL</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">🌿</div>
+            <h3>Spring Boot</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">🐳</div>
+            <h3>Docker</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">🔄</div>
+            <h3>Git</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">🎨</div>
+            <h3>Figma</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">⚡</div>
+            <h3>JavaScript</h3>
+          </div>
+          <div class="skill">
+            <div class="skill-icon">🔶</div>
+            <h3>Django</h3>
+          </div>
+        </div>
+      </section>
+
+      <section id="education">
+        <h2 class="section-title">My <span>Education</span></h2>
+        <div class="education">
+          <div class="education-header">
+            <h3 class="education-degree">Software Engineering Degree</h3>
+            <div class="education-school">
+              Ecole Nationale d'Ingénieurs de Sfax
+            </div>
+            <div class="education-date">
+              2023 – Present (Expected Graduation: 2026)
+            </div>
+          </div>
+          <div class="education-details">
+            <p>
+              <strong>Relevant Courses:</strong> Artificial Intelligence,
+              Internet of Things, Web Development, Data Structures
+            </p>
+          </div>
+        </div>
+
+        <h3 class="section-title" style="font-size: 1.8rem; margin-top: 3rem">
+          Languages
+        </h3>
+        <div class="languages">
+          <div class="language-item">
+            <div class="language-name">Arabic</div>
+            <div class="language-level">Native</div>
+          </div>
+          <div class="language-item">
+            <div class="language-name">French</div>
+            <div class="language-level">Fluent</div>
+          </div>
+          <div class="language-item">
+            <div class="language-name">English</div>
+            <div class="language-level">Advanced</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2 class="section-title">Get In <span>Touch</span></h2>
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">📧</div>
+            <a href="mailto:amine.hamdi@enis.tn">amine.hamdi@enis.tn</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <a href="tel:+21694963330">+216 94963330</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">👨‍💻</div>
+            <a href="https://github.com/AmineHamdi-hub" target="_blank"
+              >github.com/AmineHamdi-hub</a
+            >
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">💼</div>
+            <a href="https://www.linkedin.com/in/amine-elhamdi/" target="_blank"
+              >linkedin.com/in/amine-elhamdi</a
+            >
+          </div>
+        </div>
+
+        <form class="contact-form">
+          <label for="name">Name:</label>
+          <input type="text" id="name" required />
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" required />
+
+          <label for="message">Message:</label>
+          <textarea id="message" required></textarea>
+
+          <!-- Add reCAPTCHA here -->
+          <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+
+          <button type="submit">Send Message</button>
+        </form>
+
+        <!-- Include the reCAPTCHA script -->
+        <script
+          src="https://www.google.com/recaptcha/api.js"
+          async
+          defer
+        ></script>
+      </section>
+
+      <footer>
+        <div class="social-links">
+          <a href="https://github.com/AmineHamdi-hub" target="_blank">GitHub</a>
+          <a href="https://www.linkedin.com/in/amine-elhamdi/" target="_blank"
+            >LinkedIn</a
+          >
+        </div>
+        <p>© 2025 Amine Hamdi. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Three.js 3D Background
+      const canvas = document.createElement("canvas");
+      document.getElementById("canvas-container").appendChild(canvas);
+
+      // Scene setup
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+
+      // Responsive canvas
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // Camera position
+      camera.position.z = 30;
+
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0x404040, 1);
+      scene.add(ambientLight);
+
+      const pointLight = new THREE.PointLight(0x38bdf8, 2);
+      pointLight.position.set(10, 10, 10);
+      scene.add(pointLight);
+
+      const pointLight2 = new THREE.PointLight(0x818cf8, 2);
+      pointLight2.position.set(-10, -10, -10);
+      scene.add(pointLight2);
+
+      // Create particles
+      const particlesGeometry = new THREE.BufferGeometry();
+      const particlesCount = 1000;
+
+      const posArray = new Float32Array(particlesCount * 3);
+      for (let i = 0; i < particlesCount * 3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 100;
+      }
+
+      particlesGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(posArray, 3)
+      );
+
+      const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.2,
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.8,
+      });
+
+      const particlesMesh = new THREE.Points(
+        particlesGeometry,
+        particlesMaterial
+      );
+      scene.add(particlesMesh);
+
+      // Create floating geometric shapes
+      const shapes = [];
+
+      // Create dodecahedron
+      const dodecahedronGeometry = new THREE.DodecahedronGeometry(2, 0);
+      const dodecahedronMaterial = new THREE.MeshPhongMaterial({
+        color: 0x38bdf8,
+        emissive: 0x38bdf8,
+        emissiveIntensity: 0.2,
+        wireframe: true,
+      });
+      const dodecahedron = new THREE.Mesh(
+        dodecahedronGeometry,
+        dodecahedronMaterial
+      );
+      dodecahedron.position.set(-15, 8, 0);
+      scene.add(dodecahedron);
+      shapes.push(dodecahedron);
+
+      // Create octahedron
+      const octahedronGeometry = new THREE.OctahedronGeometry(3, 0);
+      const octahedronMaterial = new THREE.MeshPhongMaterial({
+        color: 0x818cf8,
+        emissive: 0x818cf8,
+        emissiveIntensity: 0.2,
+        wireframe: true,
+      });
+      const octahedron = new THREE.Mesh(octahedronGeometry, octahedronMaterial);
+      octahedron.position.set(15, -8, -5);
+      scene.add(octahedron);
+      shapes.push(octahedron);
+
+      // Create torus
+      const torusGeometry = new THREE.TorusGeometry(4, 1, 16, 50);
+      const torusMaterial = new THREE.MeshPhongMaterial({
+        color: 0x38bdf8,
+        emissive: 0x38bdf8,
+        emissiveIntensity: 0.2,
+        wireframe: true,
+      });
+      const torus = new THREE.Mesh(torusGeometry, torusMaterial);
+      torus.position.set(0, -15, 5);
+      scene.add(torus);
+      shapes.push(torus);
+
+      // Mouse interaction
+      let mouseX = 0;
+      let mouseY = 0;
+
+      document.addEventListener("mousemove", (event) => {
+        mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (event.clientY / window.innerHeight - 0.5) * 2;
+      });
+
+      // Scroll interaction
+      let scrollY = 0;
+      window.addEventListener("scroll", () => {
+        scrollY = window.scrollY;
+      });
+
+      // Animation
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // Rotate particles
+        particlesMesh.rotation.x += 0.0005;
+        particlesMesh.rotation.y += 0.0005;
+
+        // Mouse interaction with particles
+        particlesMesh.rotation.x += mouseY * 0.0005;
+        particlesMesh.rotation.y += mouseX * 0.0005;
+
+        // Rotate shapes
+        shapes.forEach((shape, index) => {
+          shape.rotation.x += 0.003 * (index + 1) * 0.2;
+          shape.rotation.y += 0.004 * (index + 1) * 0.2;
+
+          // Add subtle floating movement
+          const time = Date.now() * 0.001;
+          shape.position.y += Math.sin(time * (0.5 + index * 0.2)) * 0.01;
+          shape.position.x += Math.cos(time * (0.3 + index * 0.1)) * 0.01;
+        });
+
+        // Parallax effect on scroll
+        camera.position.y = -scrollY * 0.01;
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          window.scrollTo({
+            top: target.offsetTop,
+            behavior: "smooth",
+          });
+        });
+      });
+    </script>
+    <script>
+      document
+        .querySelector(".contact-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("name").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const message = document.getElementById("message").value.trim();
+          const recaptchaResponse = grecaptcha.getResponse(); // Get reCAPTCHA response
+
+          if (!recaptchaResponse) {
+            alert("Please complete the reCAPTCHA.");
+            return;
+          }
+
+          const response = await fetch("https://aminehamdi-hub.github.io/portfolio/", {
+            method: "POST",
+            body: JSON.stringify({
+              name,
+              email,
+              message,
+              recaptchaResponse, // Send reCAPTCHA response to the script
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          const result = await response.json();
+          if (result.result === "success") {
+            alert("Message sent successfully!");
+            document.querySelector(".contact-form").reset();
+          } else {
+            alert("Something went wrong. Please try again.");
+          }
+        });
+    </script>
+  </body>
+</html>
