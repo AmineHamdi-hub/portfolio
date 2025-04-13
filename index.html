@@ -797,7 +797,10 @@
           <textarea id="message" required></textarea>
 
           <!-- Add reCAPTCHA here -->
-          <div class="g-recaptcha" data-sitekey="6LfGERcrAAAAABCH2V0vvcneRU5Obzw4D9wcFp7p"></div>
+          <div
+            class="g-recaptcha"
+            data-sitekey="6LfGERcrAAAAABCH2V0vvcneRU5Obzw4D9wcFp7p"
+          ></div>
 
           <button type="submit">Send Message</button>
         </form>
@@ -1003,25 +1006,25 @@
           const name = document.getElementById("name").value.trim();
           const email = document.getElementById("email").value.trim();
           const message = document.getElementById("message").value.trim();
-          const recaptchaResponse = grecaptcha.getResponse(); // Get reCAPTCHA response
+          const recaptchaResponse = grecaptcha.getResponse(); // Get the reCAPTCHA response token
 
-          if (!recaptchaResponse) {
-            alert("Please complete the reCAPTCHA.");
+          // Check if reCAPTCHA is filled
+          if (recaptchaResponse === "") {
+            alert("Please verify that you are not a robot.");
             return;
           }
 
-          const response = await fetch("https://aminehamdi-hub.github.io/portfolio/", {
-            method: "POST",
-            body: JSON.stringify({
-              name,
-              email,
-              message,
-              recaptchaResponse, // Send reCAPTCHA response to the script
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          // Send form data to Google Apps Script (backend)
+          const response = await fetch(
+            "https://script.google.com/macros/s/AKfycbzNJr_haySV4iDnFAJWs2zOdLCq5YVJjq9yxWMushPbi4npLts4wkMvbARAime3_CQi/exec",
+            {
+              method: "POST",
+              body: JSON.stringify({ name, email, message, recaptchaResponse }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           const result = await response.json();
           if (result.result === "success") {
