@@ -1026,12 +1026,12 @@
         .querySelector(".contact-form")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
-
+    
           const name = document.getElementById("name").value.trim();
           const email = document.getElementById("email").value.trim();
           const message = document.getElementById("message").value.trim();
           const subject = document.getElementById("subject").value.trim();
-
+    
           try {
             const response = await fetch(
               "https://script.google.com/macros/s/AKfycbyHzePNUpfMTxPQZuPgSDAMdLvLSAmCkh58gwf7nYa7sjeWFETPpMfr0ZG1PTyBkoJ9/exec",
@@ -1047,18 +1047,18 @@
                   subject,
                   message,
                 }),
-                mode: "no-cors", // no-cors prevents access to the response
               }
             );
-
-            // With no-cors, you can't access response details
+    
             console.log("Request sent. Response object:", response);
             alert("Message sent successfully!");
           } catch (error) {
             console.error("Error submitting form:", error);
-            alert("An error occurred while submitting the form.");
+            alert(
+              "Form service is currently down. Please try again later or contact us by email."
+            );
           }
         });
-    </script>
+    </script>    
   </body>
 </html>
