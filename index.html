@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Amine Hamdi | Software Engineer</title>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -14,577 +17,810 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
-        :root {
-            /* Refined Palette from Visual Mockup */
-            --bg-color: #f7f9fc; /* Soft, light background */
-            --text-color: #111111;
-            --accent-color: #0f62fe; /* Primary Blue Accent */
-            --secondary-color: #393939; /* Darker secondary accent (for text/icons) */
-            --card-bg: #ffffff; /* Pure white cards */
-            --card-border: #e0e0e0; /* Subtle border */
-        }
+      :root {
+        /* Refined Palette from Visual Mockup */
+        --bg-color: #f7f9fc; /* Soft, light background */
+        --text-color: #111111;
+        --accent-color: #0f62fe; /* Primary Blue Accent */
+        --secondary-color: #393939; /* Darker secondary accent (for text/icons) */
+        --card-bg: #ffffff; /* Pure white cards */
+        --card-border: #e0e0e0; /* Subtle border */
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', 'Fira Code', monospace, sans-serif;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", "Fira Code", monospace, sans-serif;
+      }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
 
-        a { text-decoration: none; color: var(--accent-color); }
+      a {
+        text-decoration: none;
+        color: var(--accent-color);
+      }
 
-        /* Icon Utility */
-        .icon { display: inline-block; width: 1em; height: 1em; stroke-width: 2.5px; }
+      /* Icon Utility */
+      .icon {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        stroke-width: 2.5px;
+      }
 
-        /* --- Header --- */
+      /* --- Header --- */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 3rem;
+        position: sticky;
+        top: 0;
+        background: rgba(247, 249, 252, 0.95);
+        backdrop-filter: blur(5px);
+        z-index: 100;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* More visible shadow */
+      }
+
+      .logo {
+        font-family: "Fira Code", monospace;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--accent-color);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2.5rem;
+      }
+
+      nav a {
+        font-weight: 600;
+        padding: 0.5rem 0;
+        transition: color 0.3s, border-bottom 0.3s;
+      }
+
+      nav a:hover {
+        color: var(--accent-color);
+        border-bottom: 2px solid var(--accent-color);
+      }
+
+      section {
+        padding: 6rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-size: 2.8rem;
+        text-align: center;
+        margin-bottom: 3rem;
+        font-family: "Fira Code", monospace;
+        font-weight: 700;
+      }
+
+      .section-title span {
+        color: var(--accent-color);
+      }
+
+      /* --- Hero Section --- */
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two columns */
+        align-items: center;
+        min-height: 80vh;
+        padding: 4rem 3rem;
+        gap: 4rem;
+      }
+
+      .hero-content {
+        z-index: 10;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+        font-family: "Fira Code", monospace;
+      }
+
+      .hero h1 span {
+        color: var(--accent-color);
+      }
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.85;
+      }
+
+      /* 3D Visualization Container */
+      .hero-visual {
+        height: 400px;
+        border-radius: 1rem;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* Enhanced CTA Button */
+      .cta {
+        background-color: var(--accent-color);
+        color: white;
+        padding: 1rem 2.2rem;
+        border-radius: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        box-shadow: 0 6px 15px rgba(15, 98, 254, 0.3);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .cta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(15, 98, 254, 0.5);
+      }
+
+      /* --- Experience & Projects --- */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
+      }
+
+      /* Card Styling (Matching Mockup) */
+      .card {
+        background: var(--card-bg);
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 1px solid var(--card-border);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Soft shadow */
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        margin-bottom: 1.5rem;
+      }
+      .card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        color: var(--secondary-color);
+        font-family: "Fira Code", monospace;
+      }
+      .card h4 {
+        font-size: 1rem;
+        opacity: 0.7;
+        margin-bottom: 1rem;
+      }
+      .card p {
+        opacity: 0.85;
+        line-height: 1.6;
+      }
+
+      .card-footer {
+        margin-top: 1.5rem;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+      }
+      .tag {
+        background: #e9e9e9; /* Light grey tag background */
+        color: var(--secondary-color);
+        padding: 0.3rem 0.8rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      .card-link {
+        display: inline-flex;
+        align-items: center;
+        color: var(--accent-color);
+        font-weight: 600;
+        margin-top: 0.5rem;
+      }
+      .card-link:hover {
+        text-decoration: underline;
+      }
+
+      /* --- Skills --- */
+      .skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        justify-content: center;
+      }
+
+      .skill {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        padding: 0.8rem 1.6rem;
+        border-radius: 0.7rem;
+        font-weight: 600;
+        color: var(--secondary-color);
+        transition: background-color 0.3s, border-color 0.3s;
+      }
+
+      .skill:hover {
+        background-color: #eef2f8;
+        border-color: var(--accent-color);
+      }
+
+      /* --- Contact --- */
+      .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.6rem;
+        font-weight: 600;
+        font-size: 1.05rem;
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid var(--card-border);
+        border-radius: 0.5rem;
+        background-color: #ffffff;
+        font-size: 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.1);
+      }
+
+      .submit-btn {
+        width: 100%;
+        background: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .submit-btn:hover {
+        background-color: #0d5ddb;
+      }
+
+      /* --- Footer --- */
+      footer {
+        text-align: center;
+        padding: 2rem;
+        opacity: 0.7;
+        border-top: 1px solid var(--card-border);
+        background-color: var(--card-bg);
+      }
+      .footer-links a {
+        color: var(--secondary-color);
+        margin: 0 1rem;
+        transition: color 0.3s;
+      }
+      .footer-links a:hover {
+        color: var(--accent-color);
+      }
+
+      /* --- Responsive Design --- */
+      @media (max-width: 900px) {
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 3rem;
-            position: sticky;
-            top: 0;
-            background: rgba(247, 249, 252, 0.95);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* More visible shadow */
+          padding: 1rem 2rem;
         }
-
-        .logo {
-            font-family: 'Fira Code', monospace;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--accent-color);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-        }
-
-        nav a {
-            font-weight: 600;
-            padding: 0.5rem 0;
-            transition: color 0.3s, border-bottom 0.3s;
-        }
-
-        nav a:hover { 
-            color: var(--accent-color); 
-            border-bottom: 2px solid var(--accent-color);
-        }
-
-        section {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2.8rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            font-family: 'Fira Code', monospace;
-            font-weight: 700;
-        }
-
-        .section-title span { color: var(--accent-color); }
-
-        /* --- Hero Section --- */
         .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Two columns */
-            align-items: center;
-            min-height: 80vh;
-            padding: 4rem 3rem;
-            gap: 4rem;
+          grid-template-columns: 1fr;
+          padding: 4rem 2rem;
+          text-align: center;
         }
-
         .hero-content {
-            z-index: 10;
+          order: 2;
         }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            font-family: 'Fira Code', monospace;
-        }
-
-        .hero h1 span { color: var(--accent-color); }
-        .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.85; }
-
-        /* 3D Visualization Container */
         .hero-visual {
-            height: 400px;
-            border-radius: 1rem;
-            overflow: hidden;
-            position: relative;
+          order: 1;
+          margin-bottom: 2rem;
         }
-
-        /* Enhanced CTA Button */
-        .cta {
-            background-color: var(--accent-color);
-            color: white;
-            padding: 1rem 2.2rem;
-            border-radius: 0.6rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            box-shadow: 0 6px 15px rgba(15, 98, 254, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
+        .hero h1 {
+          font-size: 2.5rem;
         }
-        .cta:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 10px 20px rgba(15, 98, 254, 0.5);
+        nav {
+          width: 100%;
         }
-
-        /* --- Experience & Projects --- */
+        nav ul {
+          justify-content: space-around;
+          gap: 0;
+        }
         .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
+          grid-template-columns: 1fr;
         }
+      }
 
-        /* Card Styling (Matching Mockup) */
-        .card {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 1rem;
-            border: 1px solid var(--card-border);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Soft shadow */
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+      @media (max-width: 550px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
         }
-
-        .card:hover { 
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        nav ul {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+          margin-top: 0.5rem;
         }
-
-        .card-header { margin-bottom: 1.5rem; }
-        .card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--secondary-color); font-family: 'Fira Code', monospace;}
-        .card h4 { font-size: 1rem; opacity: 0.7; margin-bottom: 1rem; }
-        .card p { opacity: 0.85; line-height: 1.6; }
-        
-        .card-footer { margin-top: 1.5rem; }
-        .tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
-        .tag { 
-            background: #e9e9e9; /* Light grey tag background */
-            color: var(--secondary-color); 
-            padding: 0.3rem 0.8rem; 
-            border-radius: 6px;
-            font-size: 0.8rem; 
-            font-weight: 600;
+        .section-title {
+          font-size: 2.2rem;
         }
-        .card-link {
-            display: inline-flex;
-            align-items: center;
-            color: var(--accent-color);
-            font-weight: 600;
-            margin-top: 0.5rem;
+        .hero-visual {
+          height: 300px;
         }
-        .card-link:hover { text-decoration: underline; }
-
-        /* --- Skills --- */
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            justify-content: center;
-        }
-
-        .skill {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 0.8rem 1.6rem;
-            border-radius: 0.7rem;
-            font-weight: 600;
-            color: var(--secondary-color);
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .skill:hover { 
-            background-color: #eef2f8; 
-            border-color: var(--accent-color);
-        }
-
-        /* --- Contact --- */
-        .contact-form { max-width: 600px; margin: 0 auto; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.6rem; font-weight: 600; font-size: 1.05rem; }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid var(--card-border);
-            border-radius: 0.5rem;
-            background-color: #ffffff;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.1);
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .submit-btn:hover { background-color: #0d5ddb; }
-
-        /* --- Footer --- */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            opacity: 0.7;
-            border-top: 1px solid var(--card-border);
-            background-color: var(--card-bg);
-        }
-        .footer-links a { color: var(--secondary-color); margin: 0 1rem; transition: color 0.3s; }
-        .footer-links a:hover { color: var(--accent-color); }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 900px) {
-            header { padding: 1rem 2rem; }
-            .hero { grid-template-columns: 1fr; padding: 4rem 2rem; text-align: center; }
-            .hero-content { order: 2; }
-            .hero-visual { order: 1; margin-bottom: 2rem; }
-            .hero h1 { font-size: 2.5rem; }
-            nav { width: 100%; }
-            nav ul { justify-content: space-around; gap: 0; }
-            .cards { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 550px) {
-            header { flex-direction: column; align-items: flex-start; }
-            nav ul { flex-direction: column; align-items: flex-start; gap: 0.5rem; margin-top: 0.5rem;}
-            .section-title { font-size: 2.2rem; }
-            .hero-visual { height: 300px; }
-        }
-
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <div class="logo">Amine.Dev</div>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+      <div class="logo">Amine.Dev</div>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
     </header>
 
     <!-- Hero Section with Two Columns -->
     <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Hi, I'm <span>Amine Hamdi</span></h1>
-            <p>Motivated software engineering student specializing in AI, IoT, Web, and DevOps. I design and implement scalable, data-driven solutions.</p>
-            <a href="#projects" class="cta">View My Work</a>
-        </div>
-        
-        <!-- Three.js Visualization Placeholder -->
-        <div class="hero-visual" id="canvas-container">
-            <!-- Canvas will be appended here -->
-        </div>
+      <div class="hero-content">
+        <h1>Hi, I'm <span>Amine Hamdi</span></h1>
+        <p>
+          Motivated software engineering student specializing in AI, IoT, Web,
+          and DevOps. I design and implement scalable, data-driven solutions.
+        </p>
+        <a href="#projects" class="cta">View My Work</a>
+      </div>
+
+      <!-- Three.js Visualization Placeholder -->
+      <div class="hero-visual" id="canvas-container">
+        <!-- Canvas will be appended here -->
+      </div>
     </section>
 
     <!-- Experience Section -->
     <section id="experience">
-        <h2 class="section-title">Work <span>Experience</span></h2>
-        <div class="cards">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Full Stack & AI Intern</h3>
-                    <h4>EagleProjects Tunisia — Summer 2025</h4>
-                </div>
-                <p>Developed telemetry monitoring system for quadruped robot with **FastAPI backend** and **React.js dashboard**. Integrated **YOLOv8** for real-time obstacle detection and visualization.</p>
-                <div class="card-footer">
-                    <div class="tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">React.js</span>
-                        <span class="tag">YOLOv8</span>
-                    </div>
-                </div>
+      <h2 class="section-title">Work <span>Experience</span></h2>
+      <div class="cards">
+        <div class="card">
+          <div class="card-header">
+            <h3>Full Stack & AI Intern</h3>
+            <h4>EagleProjects Tunisia — Summer 2025</h4>
+          </div>
+          <p>
+            Developed telemetry monitoring system for quadruped robot with
+            **FastAPI backend** and **React.js dashboard**. Integrated
+            **YOLOv8** for real-time obstacle detection and visualization.
+          </p>
+          <div class="card-footer">
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">React.js</span>
+              <span class="tag">YOLOv8</span>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Backend Developer (Flask)</h3>
-                    <h4>Medical Application — Summer 2024</h4>
-                </div>
-                <p>Implemented robust backend services, REST endpoints, and secure authentication workflows for a functional medical management interface.</p>
-                <div class="card-footer">
-                    <div class="tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">Flask</span>
-                        <span class="tag">REST APIs</span>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="card">
+          <div class="card-header">
+            <h3>Backend Developer (Flask)</h3>
+            <h4>Medical Application — Summer 2024</h4>
+          </div>
+          <p>
+            Implemented robust backend services, REST endpoints, and secure
+            authentication workflows for a functional medical management
+            interface.
+          </p>
+          <div class="card-footer">
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Flask</span>
+              <span class="tag">REST APIs</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Projects Section -->
     <section id="projects">
-        <h2 class="section-title">My <span>Projects</span></h2>
-        <div class="cards">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Medical RAG Chatbot</h3>
-                </div>
-                <p>Prototype using PostgreSQL/pgvector and Google Gemini for medical document information retrieval, focused on accuracy and data security.</p>
-                <div class="card-footer">
-                    <div class="tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">PostgreSQL</span>
-                        <span class="tag">AI/LLM</span>
-                    </div>
-                    <a href="https://github.com/AmineHamdi-hub/Chatbot-RAG" target="_blank" class="card-link">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1.5-3.5c2.8-.7 5.5-1.4 5.5-6.2 0-1.4-.4-2.5-1.2-3.4 0 0-1-.3-2.7 1.3-1.6-.4-3.2-.4-4.8 0-1.7-1.6-2.7-1.3-2.7-1.3-.8.9-1.2 2-1.2 3.4 0 4.8 2.7 5.5 5.5 6.2-.2.2-.4.5-.4 1v4"/></svg>
-                        &nbsp;View on GitHub
-                    </a>
-                </div>
+      <h2 class="section-title">My <span>Projects</span></h2>
+      <div class="cards">
+        <div class="card">
+          <div class="card-header">
+            <h3>Medical RAG Chatbot</h3>
+          </div>
+          <p>
+            Prototype using PostgreSQL/pgvector and Google Gemini for medical
+            document information retrieval, focused on accuracy and data
+            security.
+          </p>
+          <div class="card-footer">
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">AI/LLM</span>
             </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>Spring Boot Microservices</h3>
-                </div>
-                <p>Backend for academic management utilizing Eureka and OpenFeign for robust service discovery and inter-service communication.</p>
-                <div class="card-footer">
-                    <div class="tags">
-                        <span class="tag">Java</span>
-                        <span class="tag">Spring Boot</span>
-                        <span class="tag">Microservices</span>
-                    </div>
-                    <a href="https://github.com/yourusername/spring-microservices-backend" target="_blank" class="card-link">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1.5-3.5c2.8-.7 5.5-1.4 5.5-6.2 0-1.4-.4-2.5-1.2-3.4 0 0-1-.3-2.7 1.3-1.6-.4-3.2-.4-4.8 0-1.7-1.6-2.7-1.3-2.7-1.3-.8.9-1.2 2-1.2 3.4 0 4.8 2.7 5.5 5.5 6.2-.2.2-.4.5-.4 1v4"/></svg>
-                        &nbsp;View on GitHub
-                    </a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>Fog Microservice Engine</h3>
-                </div>
-                <p>IoT solution for precision irrigation, using MQTT and Docker for decentralized, local decision-making at the network edge.</p>
-                <div class="card-footer">
-                    <div class="tags">
-                        <span class="tag">MQTT</span>
-                        <span class="tag">Docker</span>
-                        <span class="tag">Edge AI</span>
-                    </div>
-                    <a href="https://github.com/AmineHamdi-hub/fog-smart-agri" target="_blank" class="card-link">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1.5-3.5c2.8-.7 5.5-1.4 5.5-6.2 0-1.4-.4-2.5-1.2-3.4 0 0-1-.3-2.7 1.3-1.6-.4-3.2-.4-4.8 0-1.7-1.6-2.7-1.3-2.7-1.3-.8.9-1.2 2-1.2 3.4 0 4.8 2.7 5.5 5.5 6.2-.2.2-.4.5-.4 1v4"/></svg>
-                        &nbsp;View on GitHub
-                    </a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>Angular Frontend</h3>
-                </div>
-                <p>Complementary user interface for the academic backend, developed with Angular, TypeScript, and Angular Material for a modern UI/UX.</p>
-                <div class="card-footer">
-                    <div class="tags">
-                        <span class="tag">Angular</span>
-                        <span class="tag">TypeScript</span>
-                        <span class="tag">Frontend</span>
-                    </div>
-                    <a href="https://github.com/yourusername/angular-academic-frontend" target="_blank" class="card-link">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1.5-3.5c2.8-.7 5.5-1.4 5.5-6.2 0-1.4-.4-2.5-1.2-3.4 0 0-1-.3-2.7 1.3-1.6-.4-3.2-.4-4.8 0-1.7-1.6-2.7-1.3-2.7-1.3-.8.9-1.2 2-1.2 3.4 0 4.8 2.7 5.5 5.5 6.2-.2.2-.4.5-.4 1v4"/></svg>
-                        &nbsp;View on GitHub
-                    </a>
-                </div>
-            </div>
+            <a
+              href="https://github.com/AmineHamdi-hub/Chatbot-RAG"
+              target="_blank"
+              class="card-link"
+            >
+              <svg
+                class="icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1.5-3.5c2.8-.7 5.5-1.4 5.5-6.2 0-1.4-.4-2.5-1.2-3.4 0 0-1-.3-2.7 1.3-1.6-.4-3.2-.4-4.8 0-1.7-1.6-2.7-1.3-2.7-1.3-.8.9-1.2 2-1.2 3.4 0 4.8 2.7 5.5 5.5 6.2-.2.2-.4.5-.4 1v4"
+                />
+              </svg>
+              &nbsp;View on GitHub
+            </a>
+          </div>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Spring Boot Microservices</h3>
+          </div>
+          <p>
+            Backend for academic management utilizing Eureka and OpenFeign for
+            robust service discovery and inter-service communication.
+          </p>
+          <div class="card-footer">
+            <div class="tags">
+              <span class="tag">Java</span>
+              <span class="tag">Spring Boot</span>
+              <span class="tag">Microservices</span>
+            </div>
+            <a
+              href="https://github.com/yourusername/spring-microservices-backend"
+              target="_blank"
+              class="card-link"
+            >
+              <svg
+                class="icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1.5-3.5c2.8-.7 5.5-1.4 5.5-6.2 0-1.4-.4-2.5-1.2-3.4 0 0-1-.3-2.7 1.3-1.6-.4-3.2-.4-4.8 0-1.7-1.6-2.7-1.3-2.7-1.3-.8.9-1.2 2-1.2 3.4 0 4.8 2.7 5.5 5.5 6.2-.2.2-.4.5-.4 1v4"
+                />
+              </svg>
+              &nbsp;View on GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Fog Microservice Engine</h3>
+          </div>
+          <p>
+            IoT solution for precision irrigation, using MQTT and Docker for
+            decentralized, local decision-making at the network edge.
+          </p>
+          <div class="card-footer">
+            <div class="tags">
+              <span class="tag">MQTT</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Edge AI</span>
+            </div>
+            <a
+              href="https://github.com/AmineHamdi-hub/fog-smart-agri"
+              target="_blank"
+              class="card-link"
+            >
+              <svg
+                class="icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1.5-3.5c2.8-.7 5.5-1.4 5.5-6.2 0-1.4-.4-2.5-1.2-3.4 0 0-1-.3-2.7 1.3-1.6-.4-3.2-.4-4.8 0-1.7-1.6-2.7-1.3-2.7-1.3-.8.9-1.2 2-1.2 3.4 0 4.8 2.7 5.5 5.5 6.2-.2.2-.4.5-.4 1v4"
+                />
+              </svg>
+              &nbsp;View on GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Angular Frontend</h3>
+          </div>
+          <p>
+            Complementary user interface for the academic backend, developed
+            with Angular, TypeScript, and Angular Material for a modern UI/UX.
+          </p>
+          <div class="card-footer">
+            <div class="tags">
+              <span class="tag">Angular</span>
+              <span class="tag">TypeScript</span>
+              <span class="tag">Frontend</span>
+            </div>
+            <a
+              href="https://github.com/yourusername/angular-academic-frontend"
+              target="_blank"
+              class="card-link"
+            >
+              <svg
+                class="icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1.5-3.5c2.8-.7 5.5-1.4 5.5-6.2 0-1.4-.4-2.5-1.2-3.4 0 0-1-.3-2.7 1.3-1.6-.4-3.2-.4-4.8 0-1.7-1.6-2.7-1.3-2.7-1.3-.8.9-1.2 2-1.2 3.4 0 4.8 2.7 5.5 5.5 6.2-.2.2-.4.5-.4 1v4"
+                />
+              </svg>
+              &nbsp;View on GitHub
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Skills Section -->
     <section id="skills">
-        <h2 class="section-title">My <span>Skills</span></h2>
-        <div class="skills">
-            <div class="skill">Python</div>
-            <div class="skill">Java</div>
-            <div class="skill">JavaScript</div>
-            <div class="skill">TypeScript</div>
-            <div class="skill">Node.js</div>
-            <div class="skill">React.js</div>
-            <div class="skill">Flask / FastAPI</div>
-            <div class="skill">Spring Boot</div>
-            <div class="skill">Angular</div>
-            <div class="skill">Docker</div>
-            <div class="skill">Git / CI/CD</div>
-            <div class="skill">PostgreSQL</div>
-            <div class="skill">AI / ML</div>
-            <div class="skill">IoT / Edge Computing</div>
-        </div>
+      <h2 class="section-title">My <span>Skills</span></h2>
+      <div class="skills">
+        <div class="skill">Python</div>
+        <div class="skill">Java</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">TypeScript</div>
+        <div class="skill">Node.js</div>
+        <div class="skill">React.js</div>
+        <div class="skill">Flask / FastAPI</div>
+        <div class="skill">Spring Boot</div>
+        <div class="skill">Angular</div>
+        <div class="skill">Docker</div>
+        <div class="skill">Git / CI/CD</div>
+        <div class="skill">PostgreSQL</div>
+        <div class="skill">AI / ML</div>
+        <div class="skill">IoT / Edge Computing</div>
+      </div>
     </section>
 
     <!-- Contact Section -->
     <section id="contact">
-        <h2 class="section-title">Get In <span>Touch</span></h2>
-        <form id="contact-form" class="contact-form">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" required />
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" required />
-            </div>
-            <div class="form-group">
-                <label for="subject">Subject</label>
-                <input type="text" id="subject" required />
-            </div>
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" required rows="5"></textarea>
-            </div>
-            <button type="submit" class="submit-btn">Send Message</button>
-        </form>
+      <h2 class="section-title">Get In <span>Touch</span></h2>
+      <form id="contact-form" class="contact-form">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required />
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" required rows="5"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
     </section>
+    <script>
+      const endpoint = "https://script.google.com/macros/s/AKfycbzV1hfJolPIpXsnKfueCWyBw62EAoGc75w5pfljxtraBpFffm-G9SnxTEiYL4WxTmiB/exec"; // replace with chosen endpoint
+
+      document
+        .getElementById("contact-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const payload = {
+            name: document.getElementById("name").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            subject: document.getElementById("subject").value.trim(),
+            message: document.getElementById("message").value.trim(),
+          };
+
+          try {
+            const r = await fetch(endpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            if (!r.ok) throw new Error("Request failed: " + r.status);
+            // Display success message to user
+            alert("Message sent — thank you!");
+            e.target.reset();
+          } catch (err) {
+            console.error(err);
+            alert("Failed to send. Try again later.");
+          }
+        });
+    </script>
 
     <!-- Footer Section -->
     <footer>
-        <p>© 2025 Amine Hamdi. All rights reserved.</p>
-        <div class="footer-links" style="margin-top:1rem;">
-            <a href="https://github.com/yourusername" target="_blank">GitHub</a>
-            <a href="https://www.linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
-            <a href="mailto:your.email@example.com">Email</a>
-        </div>
+      <p>© 2025 Amine Hamdi. All rights reserved.</p>
+      <div class="footer-links" style="margin-top: 1rem">
+        <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/yourusername" target="_blank"
+          >LinkedIn</a
+        >
+        <a href="mailto:your.email@example.com">Email</a>
+      </div>
     </footer>
 
     <!-- Three.js Animation - Adapted for Hero Element -->
     <script>
-        const canvasContainer = document.getElementById("canvas-container");
-        let scene, camera, renderer, cubes, lines, ambientLight, directionalLight;
-        let width = canvasContainer.clientWidth;
-        let height = canvasContainer.clientHeight;
-        
-        // Configuration for the Network visualization
-        const CUBE_SIZE = 4;
-        const CUBE_COUNT = 6;
-        const LINE_COLOR = 0x0f62fe; 
-        const CUBE_COLOR = 0x393939;
+      const canvasContainer = document.getElementById("canvas-container");
+      let scene, camera, renderer, cubes, lines, ambientLight, directionalLight;
+      let width = canvasContainer.clientWidth;
+      let height = canvasContainer.clientHeight;
 
-        function init() {
-            width = canvasContainer.clientWidth;
-            height = canvasContainer.clientHeight;
+      // Configuration for the Network visualization
+      const CUBE_SIZE = 4;
+      const CUBE_COUNT = 6;
+      const LINE_COLOR = 0x0f62fe;
+      const CUBE_COLOR = 0x393939;
 
-            scene = new THREE.Scene();
+      function init() {
+        width = canvasContainer.clientWidth;
+        height = canvasContainer.clientHeight;
 
-            // Set up Camera: Orthographic looks better for geometric/diagram style
-            camera = new THREE.OrthographicCamera(width / -100, width / 100, height / 100, height / -100, 0.1, 1000);
-            camera.position.set(20, 20, 20);
-            camera.lookAt(scene.position);
+        scene = new THREE.Scene();
 
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(width, height);
-            canvasContainer.appendChild(renderer.domElement);
+        // Set up Camera: Orthographic looks better for geometric/diagram style
+        camera = new THREE.OrthographicCamera(
+          width / -100,
+          width / 100,
+          height / 100,
+          height / -100,
+          0.1,
+          1000
+        );
+        camera.position.set(20, 20, 20);
+        camera.lookAt(scene.position);
 
-            // Lighting
-            ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-            scene.add(ambientLight);
-            directionalLight = new THREE.DirectionalLight(0x0f62fe, 0.6);
-            directionalLight.position.set(10, 10, 10);
-            scene.add(directionalLight);
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(width, height);
+        canvasContainer.appendChild(renderer.domElement);
 
-            cubes = [];
-            lines = [];
+        // Lighting
+        ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+        directionalLight = new THREE.DirectionalLight(0x0f62fe, 0.6);
+        directionalLight.position.set(10, 10, 10);
+        scene.add(directionalLight);
 
-            // Create Cubes and Positions (Distributed Network)
-            const positions = [];
-            for (let i = 0; i < CUBE_COUNT; i++) {
-                const x = (Math.random() - 0.5) * 30;
-                const y = (Math.random() - 0.5) * 30;
-                const z = (Math.random() - 0.5) * 30;
-                positions.push(new THREE.Vector3(x, y, z));
+        cubes = [];
+        lines = [];
 
-                const geometry = new THREE.BoxGeometry(CUBE_SIZE, CUBE_SIZE, CUBE_SIZE);
-                const material = new THREE.MeshBasicMaterial({ color: CUBE_COLOR, wireframe: true, transparent: true, opacity: 0.8 });
-                const cube = new THREE.Mesh(geometry, material);
-                cube.position.set(x, y, z);
-                scene.add(cube);
-                cubes.push(cube);
+        // Create Cubes and Positions (Distributed Network)
+        const positions = [];
+        for (let i = 0; i < CUBE_COUNT; i++) {
+          const x = (Math.random() - 0.5) * 30;
+          const y = (Math.random() - 0.5) * 30;
+          const z = (Math.random() - 0.5) * 30;
+          positions.push(new THREE.Vector3(x, y, z));
+
+          const geometry = new THREE.BoxGeometry(
+            CUBE_SIZE,
+            CUBE_SIZE,
+            CUBE_SIZE
+          );
+          const material = new THREE.MeshBasicMaterial({
+            color: CUBE_COLOR,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.8,
+          });
+          const cube = new THREE.Mesh(geometry, material);
+          cube.position.set(x, y, z);
+          scene.add(cube);
+          cubes.push(cube);
+        }
+
+        // Create Connecting Lines (Network flow)
+        for (let i = 0; i < CUBE_COUNT; i++) {
+          for (let j = i + 1; j < CUBE_COUNT; j++) {
+            // Only connect near cubes to keep the visualization clean
+            if (positions[i].distanceTo(positions[j]) < 30) {
+              const lineMaterial = new THREE.LineBasicMaterial({
+                color: LINE_COLOR,
+                opacity: 0.5,
+                transparent: true,
+              });
+              const points = [positions[i], positions[j]];
+              const lineGeometry = new THREE.BufferGeometry().setFromPoints(
+                points
+              );
+              const line = new THREE.Line(lineGeometry, lineMaterial);
+              scene.add(line);
+              lines.push(line);
             }
-
-            // Create Connecting Lines (Network flow)
-            for (let i = 0; i < CUBE_COUNT; i++) {
-                for (let j = i + 1; j < CUBE_COUNT; j++) {
-                    // Only connect near cubes to keep the visualization clean
-                    if (positions[i].distanceTo(positions[j]) < 30) {
-                        const lineMaterial = new THREE.LineBasicMaterial({ color: LINE_COLOR, opacity: 0.5, transparent: true });
-                        const points = [positions[i], positions[j]];
-                        const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-                        const line = new THREE.Line(lineGeometry, lineMaterial);
-                        scene.add(line);
-                        lines.push(line);
-                    }
-                }
-            }
+          }
         }
+      }
 
-        function animate() {
-            requestAnimationFrame(animate);
+      function animate() {
+        requestAnimationFrame(animate);
 
-            // Rotate the network slightly
-            cubes.forEach((cube, index) => {
-                cube.rotation.y += 0.005;
-                cube.rotation.x += 0.001 * Math.sin(Date.now() * 0.0005 + index);
-            });
-            lines.forEach(line => {
-                line.rotation.y += 0.005;
-                line.rotation.x += 0.001;
-            });
-            
-            scene.rotation.y += 0.002;
+        // Rotate the network slightly
+        cubes.forEach((cube, index) => {
+          cube.rotation.y += 0.005;
+          cube.rotation.x += 0.001 * Math.sin(Date.now() * 0.0005 + index);
+        });
+        lines.forEach((line) => {
+          line.rotation.y += 0.005;
+          line.rotation.x += 0.001;
+        });
 
-            renderer.render(scene, camera);
-        }
+        scene.rotation.y += 0.002;
 
-        function onResize() {
-            width = canvasContainer.clientWidth;
-            height = canvasContainer.clientHeight;
-            
-            // Adjust orthographic camera projection
-            camera.left = width / -100;
-            camera.right = width / 100;
-            camera.top = height / 100;
-            camera.bottom = height / -100;
+        renderer.render(scene, camera);
+      }
 
-            camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
-        }
+      function onResize() {
+        width = canvasContainer.clientWidth;
+        height = canvasContainer.clientHeight;
 
-        window.onload = function() {
-            init();
-            animate();
-        }
+        // Adjust orthographic camera projection
+        camera.left = width / -100;
+        camera.right = width / 100;
+        camera.top = height / 100;
+        camera.bottom = height / -100;
 
-        window.addEventListener('resize', onResize);
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      }
+
+      window.onload = function () {
+        init();
+        animate();
+      };
+
+      window.addEventListener("resize", onResize);
     </script>
-</body>
+  </body>
 </html>
