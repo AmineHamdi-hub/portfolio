@@ -648,36 +648,55 @@
       </form>
     </section>
     <script>
-      const endpoint = "https://script.google.com/macros/s/AKfycbzV1hfJolPIpXsnKfueCWyBw62EAoGc75w5pfljxtraBpFffm-G9SnxTEiYL4WxTmiB/exec"; // replace with chosen endpoint
+function sendContactJsonp(data) {
+  return new Promise((resolve, reject) => {
+    const callbackName = 'cb_' + Date.now();
+    window[callbackName] = (resp) => {
+      delete window[callbackName];
+      document.head.removeChild(script);
+      if (resp && resp.status === 'success') resolve(resp);
+      else reject(resp);
+    };
 
-      document
-        .getElementById("contact-form")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const payload = {
-            name: document.getElementById("name").value.trim(),
-            email: document.getElementById("email").value.trim(),
-            subject: document.getElementById("subject").value.trim(),
-            message: document.getElementById("message").value.trim(),
-          };
+    const params = new URLSearchParams({
+      name: data.name,
+      email: data.email,
+      subject: data.subject,
+      message: data.message,
+      callback: callbackName
+    });
 
-          try {
-            const r = await fetch(endpoint, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            });
+    const script = document.createElement('script');
+    script.src = 'https://script.google.com/a/macros/enis.tn/s/AKfycbyPSzKUr9FgAm_tuzM-bsxkn_stcRCncG4yz_qPQwMHeKdx0DXBk2tyiOMq0ZLjTvLX/exec' + '?' + params.toString();
+    script.onerror = () => {
+      delete window[callbackName];
+      document.head.removeChild(script);
+      reject(new Error('Network / script load error'));
+    };
+    document.head.appendChild(script);
+  });
+}
 
-            if (!r.ok) throw new Error("Request failed: " + r.status);
-            // Display success message to user
-            alert("Message sent — thank you!");
-            e.target.reset();
-          } catch (err) {
-            console.error(err);
-            alert("Failed to send. Try again later.");
-          }
-        });
-    </script>
+// Usage: on submit
+document.getElementById('contact-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const payload = {
+    name: document.getElementById('name').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    subject: document.getElementById('subject').value.trim(),
+    message: document.getElementById('message').value.trim()
+  };
+
+  try {
+    await sendContactJsonp(payload);
+    alert('Message sent — thank you!');
+    e.target.reset();
+  } catch (err) {
+    console.error(err);
+    alert('Failed to send. Try again later.');
+  }
+});
+</script>
 
     <!-- Footer Section -->
     <footer>
