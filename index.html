@@ -1,424 +1,472 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Amine Hamdi | Software Engineer</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amine Hamdi | Software Engineer</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Three.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  <style>
-    :root {
-      --bg-color: #f5f5f5;
-      --text-color: #111111;
-      --accent-color: #0f62fe;
-      --card-bg: #e0e0e0;
-      --dark-accent: #393939;
-    }
+    <style>
+        :root {
+            /* Refined Palette */
+            --bg-color: #f7f9fc; /* Soft, light background */
+            --text-color: #111111;
+            --accent-color: #0f62fe; /* IBM Blue */
+            --secondary-color: #393939; /* Darker secondary accent */
+            --card-bg: #ffffff; /* Pure white cards for contrast */
+            --card-border: #e0e0e0; /* Subtle border for definition */
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', 'Fira Code', monospace, sans-serif;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Fira Code', monospace, sans-serif;
+        }
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      overflow-x: hidden;
-    }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
 
-    a { text-decoration: none; color: var(--accent-color); }
+        a { text-decoration: none; color: var(--accent-color); }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 3rem;
-      position: sticky;
-      top: 0;
-      background: rgba(245,245,245,0.95);
-      z-index: 10;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
+        /* --- Header --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            position: sticky;
+            top: 0;
+            background: rgba(247, 249, 252, 0.98); /* Use new lighter BG */
+            backdrop-filter: blur(5px); /* Add a slight blur effect */
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* Softer shadow */
+        }
 
-    .logo {
-      font-family: 'Fira Code', monospace;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent-color);
-    }
+        .logo {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
 
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
 
-    nav a {
-      font-weight: 600;
-      transition: color 0.3s;
-    }
+        nav a {
+            font-weight: 600;
+            transition: color 0.3s;
+        }
 
-    nav a:hover { color: var(--dark-accent); }
+        nav a:hover { color: var(--secondary-color); }
 
-    section {
-      padding: 6rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .section-title {
-      font-size: 2.5rem;
-      text-align: center;
-      margin-bottom: 2rem;
-      font-family: 'Fira Code', monospace;
-    }
+        .section-title {
+            font-size: 2.8rem; /* Slightly larger */
+            text-align: center;
+            margin-bottom: 3rem; /* More space */
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+        }
 
-    .section-title span { color: var(--accent-color); }
+        .section-title span { color: var(--accent-color); }
 
-    /* Hero Section */
-    .hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      padding: 0 3rem;
-      position: relative;
-    }
+        /* --- Hero Section --- */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 0 3rem;
+            position: relative;
+        }
 
-    .hero h1 {
-      font-size: 3rem;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-      font-family: 'Fira Code', monospace;
-    }
+        .hero h1 {
+            font-size: 3.5rem; /* Bolder hero heading */
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-family: 'Fira Code', monospace;
+        }
 
-    .hero h1 span { color: var(--accent-color); }
+        .hero h1 span { color: var(--accent-color); }
 
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      max-width: 600px;
-      opacity: 0.8;
-    }
+        .hero p {
+            font-size: 1.3rem; /* Slightly larger text */
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            opacity: 0.85;
+        }
 
-    .cta {
-      background-color: var(--accent-color);
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      transition: transform 0.3s;
-    }
+        /* Enhanced CTA Button */
+        .cta {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 1.1rem 2.5rem;
+            border-radius: 0.5rem;
+            font-weight: 700; /* Bolder text */
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(15, 98, 254, 0.4); /* Accent shadow */
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
 
-    .cta:hover { transform: translateY(-3px); }
+        .cta:hover { 
+            transform: translateY(-5px); /* Lift more */
+            box-shadow: 0 8px 20px rgba(15, 98, 254, 0.6);
+        }
 
-    /* Experience & Projects */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
-      gap: 2rem;
-    }
+        /* --- Experience & Projects --- */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Slightly wider cards */
+            gap: 2rem;
+        }
 
-    .card {
-      background: var(--card-bg);
-      padding: 1.5rem;
-      border-radius: 1rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
+        /* Card Enhancements */
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1.2rem; /* Softer corners */
+            border: 1px solid var(--card-border); /* Subtle border */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Default soft shadow */
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
 
-    .card:hover { 
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
+        .card:hover { 
+            transform: translateY(-7px); /* More pronounced lift */
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1); /* Darker shadow on hover */
+        }
 
-    .card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
-    .card h4 { font-size: 1rem; opacity: 0.8; margin-bottom: 1rem; }
-    .card p { opacity: 0.85; margin-bottom: 1rem; line-height: 1.5; }
-    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
-    .tag { background: var(--dark-accent); color: #fff; padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.85rem; }
+        .card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--accent-color); } /* Highlight titles */
+        .card h4 { font-size: 1rem; opacity: 0.7; margin-bottom: 1rem; }
+        .card p { opacity: 0.85; margin-bottom: 1rem; line-height: 1.6; }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+        .tag { 
+            background: var(--secondary-color); 
+            color: #fff; 
+            padding: 0.4rem 1rem; 
+            border-radius: 4px; /* Less rounded tags */
+            font-size: 0.8rem; 
+            font-weight: 600;
+        }
+        .card .cta { /* Style the small CTA button inside the card */
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.7rem 1.5rem;
+            font-size: 0.9rem !important;
+        }
 
-    /* Skills */
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-    }
+        /* --- Skills --- */
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
 
-    .skill {
-      background: var(--card-bg);
-      padding: 1rem 1.5rem;
-      border-radius: 0.7rem;
-      font-weight: 600;
-      transition: transform 0.3s;
-    }
+        .skill {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 1rem 1.8rem;
+            border-radius: 0.7rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            transition: transform 0.3s, background-color 0.3s;
+        }
 
-    .skill:hover { transform: translateY(-5px); }
+        .skill:hover { 
+            transform: translateY(-3px); 
+            background-color: var(--card-border);
+        }
 
-    /* Contact */
-    .contact-form { max-width: 600px; margin: 0 auto; }
-    .form-group { margin-bottom: 1.5rem; }
-    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
-    .form-group input, .form-group textarea {
-      width: 100%;
-      padding: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-    }
+        /* --- Contact --- */
+        .contact-form { max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.6rem; font-weight: 600; font-size: 1.1rem; }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--card-border);
+            border-radius: 0.5rem;
+            background-color: #ffffff;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.2);
+        }
 
-    .submit-btn {
-      background: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
+        .submit-btn {
+            width: 100%;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-    footer {
-      text-align: center;
-      padding: 2rem;
-      opacity: 0.7;
-    }
+        .submit-btn:hover { background-color: #0d5ddb; } /* Slightly darker blue on hover */
 
-    /* 3D Canvas */
-    #canvas-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: -1;
-    }
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.7;
+            border-top: 1px solid var(--card-border);
+            margin-top: 2rem;
+            background-color: #ffffff;
+        }
 
-    @media (max-width:768px){
-      nav ul { flex-direction: column; gap: 1rem; }
-      .hero h1 { font-size: 2.2rem; }
-    }
+        /* --- 3D Canvas --- */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+        }
 
-  </style>
+        @media (max-width: 900px) {
+            .cards { grid-template-columns: 1fr; }
+            .hero { padding: 4rem 2rem; text-align: center; align-items: center; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero p { font-size: 1.1rem; }
+            header { padding: 1rem 2rem; flex-direction: column; }
+            nav ul { margin-top: 1rem; justify-content: center; }
+        }
+
+        @media (max-width: 500px) {
+            nav ul { flex-direction: column; gap: 0.5rem; }
+            .hero h1 { font-size: 2.2rem; }
+            .section-title { font-size: 2rem; }
+        }
+
+    </style>
 </head>
 <body>
-  <div id="canvas-container"></div>
+    <div id="canvas-container"></div>
 
-  <header>
-    <div class="logo">Amine.Dev</div>
-    <nav>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header>
+        <div class="logo">Amine.Dev</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <h1>Hi, I'm <span>Amine Hamdi</span></h1>
-    <p>Motivated software engineering student with expertise in AI, IoT, Web, and DevOps.</p>
-    <a href="#contact" class="cta">Get In Touch</a>
-  </section>
+    <section id="home" class="hero">
+        <h1>Hi, I'm <span>Amine Hamdi</span></h1>
+        <p>Motivated software engineering student with expertise in AI, IoT, Web, and DevOps, committed to building impactful and scalable systems.</p>
+        <a href="#contact" class="cta">Get In Touch</a>
+    </section>
 
-  <!-- Experience Section -->
-  <section id="experience">
-    <h2 class="section-title">Work <span>Experience</span></h2>
-    <div class="cards">
-      <div class="card">
-        <h3>Full Stack & AI Intern</h3>
-        <h4>EagleProjects Tunisia — Summer 2025</h4>
-        <p>Developed telemetry monitoring system for quadruped robot with FastAPI backend and React.js dashboard. Integrated YOLOv8 for live obstacle detection.</p>
-        <p><strong>Tech:</strong> Python, FastAPI, React.js, YOLOv8</p>
-      </div>
-      <div class="card">
-        <h3>Backend Developer (Flask)</h3>
-        <h4>Medical Application — Summer 2024</h4>
-        <p>Implemented backend services, REST endpoints, and authentication workflows. Collaborated with UI team for functional medical interface.</p>
-        <p><strong>Tech:</strong> Python, Flask, REST APIs</p>
-      </div>
-    </div>
-  </section>
+    <section id="experience">
+        <h2 class="section-title">Work <span>Experience</span></h2>
+        <div class="cards">
+            <div class="card">
+                <h3>Full Stack & AI Intern</h3>
+                <h4>EagleProjects Tunisia — Summer 2025</h4>
+                <p>Developed telemetry monitoring system for quadruped robot with **FastAPI backend** and **React.js dashboard**. Integrated **YOLOv8** for live obstacle detection and real-time data visualization.</p>
+                <p><strong>Tech:</strong> Python, FastAPI, React.js, YOLOv8</p>
+            </div>
+            <div class="card">
+                <h3>Backend Developer (Flask)</h3>
+                <h4>Medical Application — Summer 2024</h4>
+                <p>Implemented robust backend services, **REST endpoints**, and secure authentication workflows. Collaborated closely with the UI team to ensure seamless integration and functional medical interface.</p>
+                <p><strong>Tech:</strong> Python, Flask, REST APIs, PostgreSQL</p>
+            </div>
+        </div>
+    </section>
 
-  <!-- Projects Section -->
-<section id="projects">
-  <h2 class="section-title">My <span>Projects</span></h2>
-  <div class="cards">
-    <div class="card">
-      <h3>Medical RAG Chatbot</h3>
-      <p>Prototype using PostgreSQL/pgvector and Google Gemini for medical document information retrieval.</p>
-      <div class="tags">
-        <span class="tag">Python</span>
-        <span class="tag">PostgreSQL</span>
-        <span class="tag">AI</span>
-      </div>
-      <a href="https://github.com/yourusername/medical-rag-chatbot" target="_blank" class="cta" style="font-size:0.9rem;">GitHub</a>
-    </div>
+    <section id="projects">
+        <h2 class="section-title">My <span>Projects</span></h2>
+        <div class="cards">
+            <div class="card">
+                <h3>Medical RAG Chatbot</h3>
+                <p>Prototype using **PostgreSQL/pgvector** and **Google Gemini** for secure and efficient information retrieval from large medical document corpuses.</p>
+                <div class="tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">PostgreSQL</span>
+                    <span class="tag">AI/LLM</span>
+                    <span class="tag">Gemini</span>
+                </div>
+                <a href="https://github.com/yourusername/medical-rag-chatbot" target="_blank" class="cta" style="font-size:0.9rem;">View Code</a>
+            </div>
 
-    <div class="card">
-      <h3>Spring Boot Microservices Backend</h3>
-      <p>Manages academic members, publications, and events. Uses API Gateway, Eureka, Config Server, and OpenFeign inter-service communication.</p>
-      <div class="tags">
-        <span class="tag">Java</span>
-        <span class="tag">Spring Boot</span>
-        <span class="tag">Microservices</span>
-        <span class="tag">Docker</span>
-      </div>
-      <a href="https://github.com/yourusername/spring-microservices-backend" target="_blank" class="cta" style="font-size:0.9rem;">GitHub</a>
-    </div>
+            <div class="card">
+                <h3>Spring Boot Microservices Backend</h3>
+                <p>A scalable system for managing academic members, publications, and events. Utilizes API Gateway, Eureka, Config Server, and **OpenFeign** for inter-service communication.</p>
+                <div class="tags">
+                    <span class="tag">Java</span>
+                    <span class="tag">Spring Boot</span>
+                    <span class="tag">Microservices</span>
+                    <span class="tag">Docker</span>
+                </div>
+                <a href="https://github.com/yourusername/spring-microservices-backend" target="_blank" class="cta" style="font-size:0.9rem;">View Code</a>
+            </div>
 
-    <div class="card">
-      <h3>Fog Microservice Engine</h3>
-      <p>Smart agriculture engine for local decision-making (precision irrigation) using MQTT, Docker, and Edge AI.</p>
-      <div class="tags">
-        <span class="tag">MQTT</span>
-        <span class="tag">Docker</span>
-        <span class="tag">Edge AI</span>
-      </div>
-      <a href="https://github.com/yourusername/fog-microservice-engine" target="_blank" class="cta" style="font-size:0.9rem;">GitHub</a>
-    </div>
+            <div class="card">
+                <h3>Fog Microservice Engine (IoT)</h3>
+                <p>Smart agriculture engine for local, real-time decision-making (precision irrigation) using **MQTT** for messaging, Docker for deployment, and Edge AI for localized processing.</p>
+                <div class="tags">
+                    <span class="tag">MQTT</span>
+                    <span class="tag">Docker</span>
+                    <span class="tag">Edge AI</span>
+                    <span class="tag">Python</span>
+                </div>
+                <a href="https://github.com/yourusername/fog-microservice-engine" target="_blank" class="cta" style="font-size:0.9rem;">View Code</a>
+            </div>
 
-    <div class="card">
-      <h3>Angular Frontend for Academic Backend</h3>
-      <p>Frontend complementary to Spring Boot backend using Angular, Angular Material, and TypeScript.</p>
-      <div class="tags">
-        <span class="tag">Angular</span>
-        <span class="tag">TypeScript</span>
-        <span class="tag">Angular Material</span>
-      </div>
-      <a href="https://github.com/yourusername/angular-academic-frontend" target="_blank" class="cta" style="font-size:0.9rem;">GitHub</a>
-    </div>
-  </div>
-</section>
+            <div class="card">
+                <h3>Angular Frontend for Academic Backend</h3>
+                <p>Sleek, responsive frontend complementary to the Spring Boot backend using the latest **Angular** framework, **Angular Material** components, and **TypeScript** for type safety.</p>
+                <div class="tags">
+                    <span class="tag">Angular</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">Angular Material</span>
+                    <span class="tag">Frontend</span>
+                </div>
+                <a href="https://github.com/yourusername/angular-academic-frontend" target="_blank" class="cta" style="font-size:0.9rem;">View Code</a>
+            </div>
+        </div>
+    </section>
 
-<!-- Footer Section -->
-<footer>
-  <p>© 2025 Amine Hamdi. All rights reserved.</p>
-  <div style="margin-top:1rem; display:flex; justify-content:center; gap:2rem;">
-    <a href="https://github.com/yourusername" target="_blank">GitHub</a>
-    <a href="https://www.linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
-    <a href="mailto:your.email@example.com">Email</a>
-  </div>
-</footer>
+    <section id="skills">
+        <h2 class="section-title">My <span>Skills</span></h2>
+        <div class="skills">
+            <div class="skill">Python</div>
+            <div class="skill">Java</div>
+            <div class="skill">JavaScript</div>
+            <div class="skill">TypeScript</div>
+            <div class="skill">Node.js</div>
+            <div class="skill">React.js</div>
+            <div class="skill">Flask / FastAPI</div>
+            <div class="skill">Spring Boot</div>
+            <div class="skill">Angular</div>
+            <div class="skill">Docker</div>
+            <div class="skill">Git / GitLab CI/CD</div>
+            <div class="skill">MySQL / PostgreSQL</div>
+            <div class="skill">AI / ML</div>
+            <div class="skill">IoT / Edge Computing</div>
+        </div>
+    </section>
 
+    <section id="contact">
+        <h2 class="section-title">Get In <span>Touch</span></h2>
+        <form id="contact-form" class="contact-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required />
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" required />
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" required rows="5"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </section>
 
-  <!-- Skills Section -->
-  <section id="skills">
-    <h2 class="section-title">My <span>Skills</span></h2>
-    <div class="skills">
-      <div class="skill">Python</div>
-      <div class="skill">Java</div>
-      <div class="skill">JavaScript</div>
-      <div class="skill">TypeScript</div>
-      <div class="skill">Node.js</div>
-      <div class="skill">React.js</div>
-      <div class="skill">Flask / FastAPI</div>
-      <div class="skill">Spring Boot</div>
-      <div class="skill">Angular</div>
-      <div class="skill">Docker</div>
-      <div class="skill">Git / GitLab CI/CD</div>
-      <div class="skill">MySQL / PostgreSQL</div>
-      <div class="skill">AI / ML</div>
-    </div>
-  </section>
+    <footer>
+        <p>© 2025 Amine Hamdi. All rights reserved.</p>
+        <div style="margin-top:1rem; display:flex; justify-content:center; gap:2rem;">
+            <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+            <a href="mailto:your.email@example.com">Email</a>
+        </div>
+    </footer>
 
-  <!-- Contact Section -->
-  <section id="contact">
-    <h2 class="section-title">Get In <span>Touch</span></h2>
-    <form id="contact-form" class="contact-form">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" required />
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" required />
-      </div>
-      <div class="form-group">
-        <label for="subject">Subject</label>
-        <input type="text" id="subject" required />
-      </div>
-      <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" required></textarea>
-      </div>
-      <button type="submit" class="submit-btn">Send Message</button>
-    </form>
-  </section>
+    <script>
+        const canvasContainer = document.getElementById("canvas-container");
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        canvasContainer.appendChild(renderer.domElement);
+        camera.position.z = 30;
 
-  <footer>
-    <p>© 2025 Amine Hamdi. All rights reserved.</p>
-  </footer>
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0x0f62fe, 1.5); // Use the accent color for light
+        pointLight.position.set(10,10,10);
+        scene.add(pointLight);
 
-  <!-- Three.js Animation -->
-  <script>
-    const canvasContainer = document.getElementById("canvas-container");
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    canvasContainer.appendChild(renderer.domElement);
-    camera.position.z = 30;
+        // Rotating cube
+        const geometry = new THREE.BoxGeometry(5,5,5);
+        const material = new THREE.MeshStandardMaterial({color:0x0f62fe, wireframe:true});
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
 
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(0x0f62fe, 1.5);
-    pointLight.position.set(10,10,10);
-    scene.add(pointLight);
+        // Floating particles
+        const particleCount = 500;
+        const particleGeometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount*3);
+        for(let i=0;i<particleCount*3;i++){ positions[i]=(Math.random()-0.5)*100; }
+        particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
+        const particleMaterial = new THREE.PointsMaterial({color:0x0f62fe, size:0.2, opacity:0.5, transparent:true});
+        const particles = new THREE.Points(particleGeometry, particleMaterial);
+        scene.add(particles);
 
-    // Rotating cube
-    const geometry = new THREE.BoxGeometry(5,5,5);
-    const material = new THREE.MeshStandardMaterial({color:0x0f62fe, wireframe:true});
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+        // Hexagonal prisms
+        const prismGeometry = new THREE.CylinderGeometry(1,1,3,6);
+        const prismMaterial = new THREE.MeshStandardMaterial({color:0x393939, wireframe:true}); // Secondary color for subtle elements
+        const prisms = [];
+        for(let i=0;i<5;i++){
+            const prism = new THREE.Mesh(prismGeometry, prismMaterial);
+            prism.position.set(Math.random()*50-25, Math.random()*50-25, Math.random()*50-25);
+            scene.add(prism);
+            prisms.push(prism);
+        }
 
-    // Floating particles
-    const particleCount = 500;
-    const particleGeometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount*3);
-    for(let i=0;i<particleCount*3;i++){ positions[i]=(Math.random()-0.5)*100; }
-    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
-    const particleMaterial = new THREE.PointsMaterial({color:0x0f62fe, size:0.2, opacity:0.5, transparent:true});
-    const particles = new THREE.Points(particleGeometry, particleMaterial);
-    scene.add(particles);
+        // Animate
+        function animate(){
+            requestAnimationFrame(animate);
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            particles.rotation.y += 0.001;
+            prisms.forEach(p=>{ p.rotation.x += 0.002; p.rotation.y +=0.003; });
+            renderer.render(scene,camera);
+        }
+        animate();
 
-    // Hexagonal prisms
-    const prismGeometry = new THREE.CylinderGeometry(1,1,3,6);
-    const prismMaterial = new THREE.MeshStandardMaterial({color:0x393939, wireframe:true});
-    const prisms = [];
-    for(let i=0;i<5;i++){
-      const prism = new THREE.Mesh(prismGeometry, prismMaterial);
-      prism.position.set(Math.random()*50-25, Math.random()*50-25, Math.random()*50-25);
-      scene.add(prism);
-      prisms.push(prism);
-    }
-
-    // Animate
-    function animate(){
-      requestAnimationFrame(animate);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-      particles.rotation.y += 0.001;
-      prisms.forEach(p=>{ p.rotation.x += 0.002; p.rotation.y +=0.003; });
-      renderer.render(scene,camera);
-    }
-    animate();
-
-    window.addEventListener('resize', ()=>{
-      camera.aspect=window.innerWidth/window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth,window.innerHeight);
-    });
-  </script>
+        window.addEventListener('resize', ()=>{
+            camera.aspect=window.innerWidth/window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth,window.innerHeight);
+        });
+    </script>
 </body>
 </html>
