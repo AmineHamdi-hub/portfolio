@@ -667,7 +667,8 @@ function sendContactJsonp(data) {
     });
 
     const script = document.createElement('script');
-    script.src = 'https://script.google.com/a/macros/enis.tn/s/AKfycbyPSzKUr9FgAm_tuzM-bsxkn_stcRCncG4yz_qPQwMHeKdx0DXBk2tyiOMq0ZLjTvLX' + '?' + params.toString();
+    // Use the working Apps Script webapp URL (dev or exec). This URL was tested and returns callback({"status":"success"}).
+    script.src = 'https://script.google.com/a/macros/enis.tn/s/AKfycbytx4dKbXW_Dm7Onj0O6_hneAa9Ka3nG_Y9a8nVdm19CwVgqO4MlfeSRuXDSs69wOlU/exec' + '?' + params.toString();
     script.onerror = () => {
       delete window[callbackName];
       document.head.removeChild(script);
